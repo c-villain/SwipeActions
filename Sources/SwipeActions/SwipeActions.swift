@@ -24,7 +24,6 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
     
     @State private var maxLeadingOffset: CGFloat = .zero
     @State private var minTrailingOffset: CGFloat = .zero
-    @State private var contentHeight: CGFloat = .zero
     
     private let leadingSwipeView: Group<V1>?
     private let trailingSwipeView: Group<V2>?
@@ -53,9 +52,6 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
     public func body(content: Content) -> some View {
         ZStack {
             content
-                .measureSize {
-                    contentHeight = $0.height
-                }
                 .contentShape(Rectangle()) ///otherwise swipe won't work in vacant area
                 .offset(x: offset)
                 .gesture(DragGesture(minimumDistance: 15, coordinateSpace: .local)
@@ -91,14 +87,12 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
                 }))
             HStack(alignment: .center, spacing: 0) {
                 leadingSwipeView
-                    .frame(height: contentHeight)
                     .measureSize {
                         maxLeadingOffset = maxLeadingOffset + $0.width
                     }
                     .offset(x: (-1 * maxLeadingOffset) + offset)
                 Spacer()
                 trailingSwipeView
-                    .frame(height: contentHeight)
                     .measureSize {
                         minTrailingOffset = (abs(minTrailingOffset) + $0.width) * -1
                     }
