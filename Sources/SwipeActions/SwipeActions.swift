@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-typealias Leading<V> = Group<V> where V:View
-typealias Trailing<V> = Group<V> where V:View
+public typealias Leading<V> = Group<V> where V:View
+public typealias Trailing<V> = Group<V> where V:View
 
-struct SwipeAction<V1: View, V2: View>: ViewModifier {
+public struct SwipeAction<V1: View, V2: View>: ViewModifier {
 
     enum VisibleButton {
         case none
@@ -28,19 +28,16 @@ struct SwipeAction<V1: View, V2: View>: ViewModifier {
     private let leadingSwipeView: Group<V1>?
     private let trailingSwipeView: Group<V2>?
     
-    @inlinable
     init(@ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>) {
         leadingSwipeView = content().value.0
         trailingSwipeView = content().value.1
     }
 
-    @inlinable
     init(@ViewBuilder leading: @escaping () -> V1) {
         leadingSwipeView = Group { leading() }
         trailingSwipeView = nil
     }
 
-    @inlinable
     init(@ViewBuilder trailing: @escaping () -> V2) {
         trailingSwipeView = Group { trailing() }
         leadingSwipeView = nil
@@ -52,7 +49,7 @@ struct SwipeAction<V1: View, V2: View>: ViewModifier {
         oldOffset = 0
     }
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         ZStack {
             content
                 .contentShape(Rectangle()) ///otherwise swipe won't work in vacant area
