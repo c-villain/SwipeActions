@@ -7,27 +7,25 @@
 
 import SwiftUI
 
-struct PreferenceKey: PreferenceKey {
-    typealias Value = CGRect
-    static var defaultValue: CGRect = .zero
-
-  static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
-      value = nextValue()
-  }
+struct SizePreferenceKey: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
 }
 
 struct MeasureSizeModifier: ViewModifier {
   func body(content: Content) -> some View {
     content.background(GeometryReader { geometry in
-      Color.clear.preference(key: PreferenceKey.self,
+      Color.clear.preference(key: SizePreferenceKey.self,
                              value: geometry.size)
     })
   }
 }
 
 extension View {
-  func measureSize(perform action: @escaping (CGRect) -> Void) -> some View {
-    self.modifier(MeasureWidthModifier())
-      .onPreferenceChange(WidthPreferenceKey.self, perform: action)
+  func measureSize(perform action: @escaping (CGSize) -> Void) -> some View {
+    self.modifier(MeasureSizeModifier())
+      .onPreferenceChange(SizePreferenceKey.self, perform: action)
   }
 }
