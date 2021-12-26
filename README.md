@@ -2,10 +2,10 @@
 
 <p align="center">
      <img src="https://img.shields.io/badge/release-0.1.0-blue" />
-     <img src="https://img.shields.io/badge/license-MIT-blue" />
     <img src="https://img.shields.io/badge/platform-IOS-blue" />
     <img src="https://img.shields.io/badge/iOS-13-blue" />
     <img src="https://img.shields.io/badge/language-Swift%205.0-blue" />
+     <img src="https://img.shields.io/badge/license-MIT-blue" />
 </p>
 
 Library for creating swipe actions for any SwiftUI View, similar to Apple's [```swipeActions(edge:allowsFullSwipe:content:)```](https://developer.apple.com/documentation/swiftui/view/swipeactions(edge:allowsfullswipe:content:)) that available from iOS 15 and only in List 🤷🏼‍♂️.
