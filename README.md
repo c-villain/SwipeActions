@@ -147,7 +147,7 @@ struct YourView: View {
 
 ## License
 
-SwipeActions is released under an MIT license.
+SwipeActions package is released under an MIT license.
 
 ## Special thanks
 
