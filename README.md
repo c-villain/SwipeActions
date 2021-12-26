@@ -147,7 +147,7 @@ struct YourView: View {
 
 ## License
 
-Signals is released under an MIT license.
+SwipeActions is released under an MIT license.
 
 ## Special thanks
 
