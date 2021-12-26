@@ -8,7 +8,8 @@
     <img src="https://img.shields.io/badge/language-Swift%205.0-blue" />
 </p>
 
-Library for creating swipe actions for any SwiftUI View, similar to Apple's [```swipeActions(edge:allowsFullSwipe:content:)```](https://developer.apple.com/documentation/swiftui/view/swipeactions(edge:allowsfullswipe:content:)) available from iOS 15 and only in List 🤷🏼‍♂️.
+Library for creating swipe actions for any SwiftUI View, similar to Apple's [```swipeActions(edge:allowsFullSwipe:content:)```](https://developer.apple.com/documentation/swiftui/view/swipeactions(edge:allowsfullswipe:content:)) that available from iOS 15 and only in List 🤷🏼‍♂️.
+You can use SwipeActions in project targeting iOS 13 with any view (for ex. Text in VStack).
 
 ## Requirements
 
