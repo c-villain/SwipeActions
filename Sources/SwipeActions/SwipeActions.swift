@@ -123,7 +123,7 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
             .contentShape(Rectangle()) ///otherwise swipe won't work in vacant area
             .offset(x: offset)
             .gesture(
-                DragGesture()
+                DragGesture(minimumDistance: 15, coordinateSpace: .local)
                     .updating($dragGestureActive) { value, state, transaction in
                         state = true
                     }
