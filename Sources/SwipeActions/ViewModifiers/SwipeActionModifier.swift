@@ -15,7 +15,7 @@ public extension View {
     }
     
     @ViewBuilder
-    func addSwipeAction<V1: View>(menu: MenuType = .slided, edge: HorizontalEdge, @ViewBuilder _ content: @escaping () -> V1) -> some View {
+    func addSwipeAction<V1: View>(menu: MenuType = .slided, edge: HorizontalAlignment, @ViewBuilder _ content: @escaping () -> V1) -> some View {
         switch edge {
         case .leading:
             self.modifier(SwipeAction<V1, EmptyView>.init(menu: menu, leading: content))

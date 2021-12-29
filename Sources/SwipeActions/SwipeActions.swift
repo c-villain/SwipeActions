@@ -10,7 +10,7 @@ import SwiftUI
 public typealias Leading<V> = Group<V> where V:View
 public typealias Trailing<V> = Group<V> where V:View
 
-enum MenuType {
+public enum MenuType {
     case slided /// hstacked
     case swiped /// zstacked
 }
