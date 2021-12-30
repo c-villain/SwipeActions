@@ -161,7 +161,7 @@ YourView()
                 .font(.system(size: 20.0))
                 .foregroundColor(.white)
                 .frame(width: 68, alignment: .center)
-                .frame(maxHeight: .infinity)
+                .frame(maxHeight: .infinity) // <====== HERE
                 .background(.red)
         }
     }
