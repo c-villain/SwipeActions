@@ -139,7 +139,25 @@ struct YourView: View {
     }
 }
 ```
+### Recommendations
 
+For content with dynamic height use ```.frame(maxHeight: .infinity)```:
+
+```swift
+YourView()
+    .addSwipeAction(menu: .slided, edge: .trailing) {
+        Button {
+            ...
+        } label: {
+            Image("trash")
+                .font(.system(size: 20.0))
+                .foregroundColor(.white)
+                .frame(width: 68, alignment: .center)
+                .frame(maxHeight: .infinity)
+                .background(.red)
+        }
+    }
+```
 ## Communication
 
 - If you **found a bug**, open an issue or submit a fix via a pull request.
