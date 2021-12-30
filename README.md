@@ -31,6 +31,14 @@ dependencies: [
 ```
 ## Quick start
 
+Different types of menu: 
+- .swiped
+- .slided
+
+<p align="center">
+<img src="Sources/Gifs/menuTypes.gif" alt="Example for .swiped and .slided menu" height="160">
+</p>
+
 - Adding both leading and trailing swipe actions:
 
 <p align="center">
