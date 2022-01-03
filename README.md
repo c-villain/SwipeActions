@@ -36,7 +36,7 @@ Different types of menu:
 - .slided
 
 <p align="center">
-<img src="Sources/Gifs/menuTypes.gif" alt="Example for .swiped and .slided menu" height="160">
+<img src="Sources/Gifs/menuTypes.gif" alt="Example for .swiped and .slided menu" height="100">
 </p>
 
 - Adding both leading and trailing swipe actions:
