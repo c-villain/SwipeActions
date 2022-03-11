@@ -11,6 +11,8 @@
 Library for creating swipe actions for any SwiftUI View, similar to Apple's [```swipeActions(edge:allowsFullSwipe:content:)```](https://developer.apple.com/documentation/swiftui/view/swipeactions(edge:allowsfullswipe:content:)) that available from iOS 15 and only in List 🤷🏼‍♂️.
 You can use SwipeActions in project targeting iOS 13 with any view (for ex. Text in VStack).
 
+👨🏻‍💻 Feel free to subscribe to channel **[SwiftUI dev](https://t.me/swiftui_dev)** in telegram.
+
 ## Requirements
 
 - iOS 13.0
