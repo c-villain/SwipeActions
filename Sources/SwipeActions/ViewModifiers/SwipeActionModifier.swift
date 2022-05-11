@@ -23,4 +23,12 @@ public extension View {
             self.modifier(SwipeAction<EmptyView, V1>.init(menu: menu, trailing: content))
         }
     }
+
+    @ViewBuilder
+    func addFullSwipeAction<V1: View, V2: View>(menu: MenuType = .slided,
+                                                swipeColor: Color = Color.red,
+                                                @ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>,
+                                                action: (() -> Void)? = nil) -> some View {
+        self.modifier(SwipeAction.init(menu: menu, allowsFullSwipe: true, swipeColor: swipeColor, content, action: action))
+    }
 }

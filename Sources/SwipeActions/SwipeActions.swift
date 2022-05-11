@@ -36,6 +36,8 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
     @State private var maxLeadingOffset: CGFloat = .zero
     @State private var minTrailingOffset: CGFloat = .zero
     
+    @State private var contentWidth: CGFloat = .zero
+    @State private var isDeletedRow: Bool = false
     /**
      For lazy views: because of measuring size occurred every onAppear
      */
@@ -46,22 +48,35 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
     private let leadingSwipeView: Group<V1>?
     private let trailingSwipeView: Group<V2>?
     
-    init(menu: MenuType, @ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>) {
+    private let swipeColor: Color?
+    private let allowsFullSwipe: Bool
+    private let action: (() -> Void)?
+    
+    init(menu: MenuType, allowsFullSwipe: Bool = false, swipeColor: Color? = nil, @ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>, action: (() -> Void)? = nil) {
         menuTyped = menu
+        self.allowsFullSwipe = allowsFullSwipe
+        self.swipeColor = swipeColor
         leadingSwipeView = content().value.0
         trailingSwipeView = content().value.1
+        self.action = action
     }
 
-    init(menu: MenuType, @ViewBuilder leading: @escaping () -> V1) {
+    init(menu: MenuType, allowsFullSwipe: Bool = false, swipeColor: Color? = nil, @ViewBuilder leading: @escaping () -> V1, action: (() -> Void)? = nil) {
         menuTyped = menu
+        self.allowsFullSwipe = allowsFullSwipe
+        self.swipeColor = swipeColor
         leadingSwipeView = Group { leading() }
         trailingSwipeView = nil
+        self.action = action
     }
 
-    init(menu: MenuType, @ViewBuilder trailing: @escaping () -> V2) {
+    init(menu: MenuType, allowsFullSwipe: Bool = false, swipeColor: Color? = nil, @ViewBuilder trailing: @escaping () -> V2, action: (() -> Void)? = nil) {
         menuTyped = menu
+        self.allowsFullSwipe = allowsFullSwipe
+        self.swipeColor = swipeColor
         trailingSwipeView = Group { trailing() }
         leadingSwipeView = nil
+        self.action = action
     }
     
     func reset() {
@@ -105,6 +120,7 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
             leadingView
             Spacer()
             trailingView
+                .offset(x: allowsFullSwipe && offset < minTrailingOffset ? (-1 * minTrailingOffset) + offset : 0)
         }
     }
     
@@ -122,6 +138,9 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
         content
             .contentShape(Rectangle()) ///otherwise swipe won't work in vacant area
             .offset(x: offset)
+            .measureSize {
+                contentWidth = $0.width
+            }
             .gesture(
                 DragGesture(minimumDistance: 15, coordinateSpace: .local)
                     .updating($dragGestureActive) { value, state, transaction in
@@ -130,11 +149,16 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
                     .onChanged { value in
                         let totalSlide = value.translation.width + oldOffset
                         
-                        if  (0...Int(maxLeadingOffset) ~= Int(totalSlide)) || (Int(minTrailingOffset)...0 ~= Int(totalSlide)) {
+                        if allowsFullSwipe && ...0 ~= Int(totalSlide) {
+                            withAnimation {
+                                offset = totalSlide
+                            }
+                        } else if (0...Int(maxLeadingOffset) ~= Int(totalSlide)) || (Int(minTrailingOffset)...0 ~= Int(totalSlide)) {
                             withAnimation {
                                 offset = totalSlide
                             }
                         }
+
                     }.onEnded { value in
                         print("gesture is ended!")
                         withAnimation {
@@ -156,6 +180,18 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
                                 reset()
                             }
                         }
+                        
+                        if allowsFullSwipe && value.translation.width < -(contentWidth * 0.7) {
+                            withAnimation {
+                                offset = -contentWidth
+                            }
+                            action?()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                withAnimation {
+                                    isDeletedRow = true
+                                }
+                            }
+                        }
                     })
                 .valueChanged(of: dragGestureActive) { newIsActiveValue in
                     if newIsActiveValue == false {
@@ -172,14 +208,18 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
         switch menuTyped {
         case .slided:
             ZStack {
+                swipeColor
                 gesturedContent(content: content)
                 slidedMenu
             }
+            .frame(height: isDeletedRow ? 0 : nil)
         case .swiped:
             ZStack {
+                swipeColor
                 swipedMenu
                 gesturedContent(content: content)
             }
+            .frame(height: isDeletedRow ? 0 : nil)
         }
     }
 }
