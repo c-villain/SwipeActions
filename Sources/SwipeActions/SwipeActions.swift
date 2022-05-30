@@ -240,7 +240,7 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
                 swipedMenu
                 gesturedContent(content: content)
             }
-            .frame(height: isDeletedRow ? 0 : nil, alignment: .top)
+           .frame(height: isDeletedRow ? 0 : nil, alignment: .top)
         }
     }
 }
