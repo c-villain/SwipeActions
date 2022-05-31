@@ -1,25 +1,26 @@
 //
-//  ExampleView.swift
+//  ExampleViewLazy.swift
 //  SwipeExample
 //
-//  Created by aromanov on 31.05.2022.
+//  Created by aromanov on 29.04.2022.
 //
 
 import SwiftUI
 import SwipeActions
 
-struct ExampleView: View {
+@available(iOS 14.0, *)
+struct ExampleViewLazy: View {
     
     @State var isSwiped: Bool = false
-    @ObservedObject var viewModel = ExampleViewModel()
+    @StateObject var viewModel = ExampleViewModel()
     
     var body: some View {
         TabView {
             
             // Tab 1
             ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(1 ... 10, id: \.self) { cell in
+                LazyVStack(spacing: 0) {
+                    ForEach(1 ... 100, id: \.self) { cell in
                         Text("Cell \(cell)")
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -79,14 +80,13 @@ struct ExampleView: View {
                 }
             }
             .tabItem {
-                Image(systemName: "arrow.left.square.fill")
-                Text("Slided")
+                Label("Slided", systemImage: "arrow.left.square")
             }
             
             // Tab 2
             ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(1 ... 10, id: \.self) { cell in
+                LazyVStack(spacing: 0) {
+                    ForEach(1 ... 100, id: \.self) { cell in
                         Text("Cell \(cell)")
                             .padding()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -142,14 +142,13 @@ struct ExampleView: View {
                 }
             }
             .tabItem {
-                Image(systemName: "arrow.left.square.fill")
-                Text("Swiped")
+                Label("Swiped", systemImage: "arrow.left.square")
             }
             
             // Tab 3
             ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(1 ... 10, id: \.self) { cell in
+                LazyVStack(spacing: 0) {
+                    ForEach(1 ... 100, id: \.self) { cell in
                         Text("Cell \(cell)")
                             .padding()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -203,14 +202,13 @@ struct ExampleView: View {
                 }
             }
             .tabItem {
-                Image(systemName: "chevron.left.square.fill")
-                Text("Slided")
+                Label("Slided", systemImage: "chevron.backward.square")
             }
             
             // Tab 4
             ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(1 ... 10, id: \.self) { cell in
+                LazyVStack(spacing: 0) {
+                    ForEach(1 ... 100, id: \.self) { cell in
                         Text("Cell \(cell)")
                             .padding()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -265,8 +263,7 @@ struct ExampleView: View {
                 }
             }
             .tabItem {
-                Image(systemName: "chevron.left.square.fill")
-                Text("Swiped")
+                Label("Swiped", systemImage: "chevron.backward.square")
             }
             
             // Tab 5
@@ -336,15 +333,15 @@ struct ExampleView: View {
             }
             .listStyle(.plain)
             .tabItem {
-                Image(systemName: "list.dash")
-                Text("List")
+                Label("List", systemImage: "square.split.1x2")
             }
         }
     }
 }
 
-struct ExampleView_Previews: PreviewProvider {
+@available(iOS 14.0, *)
+struct ExampleViewLazy_Previews: PreviewProvider {
     static var previews: some View {
-        ExampleView()
+        ExampleViewLazy()
     }
 }
