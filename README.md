@@ -38,13 +38,13 @@ Different types of menu:
 - .slided
 
 <p align="center">
-<img src="Sources/Gifs/menuTypes.gif" alt="Example for .swiped and .slided menu" height="100">
+<img src="Sources/Gifs/menuTypes.gif" alt="Example for .swiped and .slided menu" height="100" width="280">
 </p>
 
 - Adding both leading and trailing swipe actions:
 
 <p align="center">
-<img src="Sources/Gifs/both.gif" alt="Example with leading and trailing swipes" height="160">
+<img src="Sources/Gifs/both.gif" alt="Example with leading and trailing swipes" height="160" width="280">
 </p>
 
 ```swift
@@ -106,7 +106,7 @@ struct YourView: View {
 - Adding one of sides swipe actions:
 
 <p align="center">
-<img src="Sources/Gifs/trailing.gif" alt="Example with trailing swipe menu" height="160">
+<img src="Sources/Gifs/trailing.gif" alt="Example with trailing swipe menu" height="160" width="280">
 </p>
 
 ```swift
