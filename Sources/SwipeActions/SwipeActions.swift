@@ -146,9 +146,6 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
         content
             .contentShape(Rectangle()) ///otherwise swipe won't work in vacant area
             .offset(x: offset)
-            .measureSize {
-                contentWidth = $0.width
-            }
             .gesture(
                 DragGesture(minimumDistance: 15, coordinateSpace: .local)
                     .updating($dragGestureActive) { value, state, transaction in
@@ -230,6 +227,9 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
         case .slided:
             ZStack {
                 swipeColor
+                    .measureSize {
+                        contentWidth = $0.width
+                    }
                 slidedMenu
                 gesturedContent(content: content)
             }
@@ -237,10 +237,13 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
         case .swiped:
             ZStack {
                 swipeColor
+                    .measureSize {
+                        contentWidth = $0.width
+                    }
                 swipedMenu
                 gesturedContent(content: content)
             }
-           .frame(height: isDeletedRow ? 0 : nil, alignment: .top)
+            .frame(height: isDeletedRow ? 0 : nil, alignment: .top)
         }
     }
 }
