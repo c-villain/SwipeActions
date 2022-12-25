@@ -1,35 +1,46 @@
-//
-//  SwipeActionModifier.swift
-//  
-//
-//  Created by Alexander Kraev on 24.12.2021.
-//
-
 import SwiftUI
 
 public extension View {
     
     @ViewBuilder
-    func addSwipeAction<V1: View, V2: View>(menu: MenuType = .slided, isSwiped: Binding<Bool> = .constant(false), @ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>) -> some View {
-        self.modifier(SwipeAction.init(menu: menu, isSwiped: isSwiped, content))
+    func addSwipeAction<V1: View, V2: View>(menu: MenuType = .slided,
+                                            state: Binding<SwipeState> = .constant(.untouched),
+                                            @ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>) -> some View {
+        self.modifier(SwipeAction.init(menu: menu,
+                                       state: state,
+                                       content))
     }
     
     @ViewBuilder
-    func addSwipeAction<V1: View>(menu: MenuType = .slided, edge: HorizontalAlignment, isSwiped: Binding<Bool> = .constant(false), @ViewBuilder _ content: @escaping () -> V1) -> some View {
+    func addSwipeAction<V1: View>(menu: MenuType = .slided,
+                                  edge: HorizontalAlignment,
+                                  state: Binding<SwipeState> = .constant(.untouched),
+                                  @ViewBuilder _ content: @escaping () -> V1) -> some View {
         switch edge {
         case .leading:
-            self.modifier(SwipeAction<V1, EmptyView>.init(menu: menu, isSwiped: isSwiped, leading: content))
+            self.modifier(SwipeAction<V1, EmptyView>.init(menu: menu,
+                                                          state: state,
+                                                          leading: content))
         default:
-            self.modifier(SwipeAction<EmptyView, V1>.init(menu: menu, isSwiped: isSwiped, trailing: content))
+            self.modifier(SwipeAction<EmptyView, V1>.init(menu: menu,
+                                                          state: state,
+                                                          trailing: content))
         }
     }
 
     @ViewBuilder
     func addFullSwipeAction<V1: View, V2: View>(menu: MenuType = .slided,
                                                 swipeColor: Color = Color.red,
-                                                isSwiped: Binding<Bool> = .constant(false),
+                                                swipeRole: SwipeRole = .destructive,
+                                                state: Binding<SwipeState> = .constant(.untouched),
                                                 @ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>,
                                                 action: (() -> Void)? = nil) -> some View {
-        self.modifier(SwipeAction.init(menu: menu, allowsFullSwipe: true, swipeColor: swipeColor, isSwiped: isSwiped, content, action: action))
+        self.modifier(SwipeAction.init(menu: menu,
+                                       allowsFullSwipe: true,
+                                       fullSwipeRole: swipeRole,
+                                       swipeColor: swipeColor,
+                                       state: state,
+                                       content,
+                                       action: action))
     }
 }

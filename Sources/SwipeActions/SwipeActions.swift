@@ -1,10 +1,3 @@
-//
-//  SwipeActions.swift
-//
-//
-//  Created by Alexander Kraev on 24.12.2021.
-//
-
 import SwiftUI
 
 public typealias Leading<V> = Group<V> where V:View
@@ -15,7 +8,20 @@ public enum MenuType {
     case swiped /// zstacked
 }
 
-public struct SwipeAction<V1: View, V2: View>: ViewModifier {
+/// Full swipe main role:
+public enum SwipeRole {
+    case destructive /// for removing element
+    case cancel
+    case defaults
+}
+
+/// For opened cells auto-hiding during swiping anothers
+public enum SwipeState: Equatable {
+    case untouched
+    case swiped(UUID)
+}
+
+struct SwipeAction<V1: View, V2: View>: ViewModifier {
 
     enum VisibleButton {
         case none
@@ -23,7 +29,7 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
         case right
     }
 
-    @Binding private var isSwiped: Bool
+    @Binding private var state: SwipeState
     @State private var offset: CGFloat = 0
     @State private var oldOffset: CGFloat = 0
     @State private var visibleButton: VisibleButton = .none
@@ -51,33 +57,56 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
 
     private let swipeColor: Color?
     private let allowsFullSwipe: Bool
+    private let fullSwipeRole: SwipeRole
     private let action: (() -> Void)?
-
-    init(menu: MenuType, allowsFullSwipe: Bool = false, swipeColor: Color? = nil, isSwiped: Binding<Bool>, @ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>, action: (() -> Void)? = nil) {
+    private let id: UUID = UUID()
+    
+    init(menu: MenuType,
+         allowsFullSwipe: Bool = false,
+         fullSwipeRole: SwipeRole = .defaults,
+         swipeColor: Color? = nil,
+         state: Binding<SwipeState>,
+         @ViewBuilder _ content: @escaping () -> TupleView<(Leading<V1>, Trailing<V2>)>,
+         action: (() -> Void)? = nil) {
         menuTyped = menu
         self.allowsFullSwipe = allowsFullSwipe
+        self.fullSwipeRole = fullSwipeRole
         self.swipeColor = swipeColor
-        _isSwiped = isSwiped
+        _state = state
         leadingSwipeView = content().value.0
         trailingSwipeView = content().value.1
         self.action = action
     }
 
-    init(menu: MenuType, allowsFullSwipe: Bool = false, swipeColor: Color? = nil, isSwiped: Binding<Bool>, @ViewBuilder leading: @escaping () -> V1, action: (() -> Void)? = nil) {
+    init(menu: MenuType,
+         allowsFullSwipe: Bool = false,
+         fullSwipeRole: SwipeRole = .defaults,
+         swipeColor: Color? = nil,
+         state: Binding<SwipeState>,
+         @ViewBuilder leading: @escaping () -> V1,
+         action: (() -> Void)? = nil) {
         menuTyped = menu
         self.allowsFullSwipe = allowsFullSwipe
+        self.fullSwipeRole = fullSwipeRole
         self.swipeColor = swipeColor
-        _isSwiped = isSwiped
+        _state = state
         leadingSwipeView = Group { leading() }
         trailingSwipeView = nil
         self.action = action
     }
-
-    init(menu: MenuType, allowsFullSwipe: Bool = false, swipeColor: Color? = nil, isSwiped: Binding<Bool>, @ViewBuilder trailing: @escaping () -> V2, action: (() -> Void)? = nil) {
+    
+    init(menu: MenuType,
+         allowsFullSwipe: Bool = false,
+         fullSwipeRole: SwipeRole = .defaults,
+         swipeColor: Color? = nil,
+         state: Binding<SwipeState>,
+         @ViewBuilder trailing: @escaping () -> V2,
+         action: (() -> Void)? = nil) {
         menuTyped = menu
         self.allowsFullSwipe = allowsFullSwipe
+        self.fullSwipeRole = fullSwipeRole
         self.swipeColor = swipeColor
-        _isSwiped = isSwiped
+        _state = state
         trailingSwipeView = Group { trailing() }
         leadingSwipeView = nil
         self.action = action
@@ -143,7 +172,9 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
     }
     
     func gesturedContent(content: Content) -> some View {
+        
         content
+            .tag(id)
             .contentShape(Rectangle()) ///otherwise swipe won't work in vacant area
             .offset(x: offset)
             .measureSize {
@@ -166,15 +197,15 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
                                 offset = totalSlide
                             }
                         }
-
                     }.onEnded { value in
-                        print("gesture is ended!")
                         withAnimation {
-                            if visibleButton == .left && value.translation.width < -20 { ///user dismisses left buttons
+                            if visibleButton == .left,
+                               value.translation.width < -20 { ///user dismisses left buttons
                                 reset()
-                            } else if visibleButton == .right && value.translation.width > 20 { ///user dismisses right buttons
+                            } else if visibleButton == .right,
+                                      value.translation.width > 20 { ///user dismisses right buttons
                                 reset()
-                            } else if offset > 20 || offset < -20 { ///scroller more then 50% show button
+                            } else if offset >  25 || offset < -25 { ///scroller more then 50% show button
                                 if offset > 0 {
                                     visibleButton = .left
                                     offset = maxLeadingOffset
@@ -188,39 +219,50 @@ public struct SwipeAction<V1: View, V2: View>: ViewModifier {
                                 reset()
                             }
                         }
-
-                        if allowsFullSwipe, value.translation.width < -(contentWidth * 0.7) {
-                            withAnimation {
+                        
+                        if allowsFullSwipe,
+                            value.translation.width < -(contentWidth * 0.7) {
+                            withAnimation(.linear(duration: 0.3)) {
                                 offset = -contentWidth
                             }
-                            action?()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                                withAnimation {
+                            
+                            switch fullSwipeRole {
+                            case .destructive:
+                                withAnimation(.linear(duration: 0.3)) {
                                     isDeletedRow = true
                                 }
+                            case .cancel:
+                                withAnimation {
+                                    reset()
+                                }
+                            default:
+                                break
                             }
+                            
+                            action?()
                         }
                     })
-            .valueChanged(of: dragGestureActive) { newIsActiveValue in
-                
-                if isSwiped == false, newIsActiveValue {
-                    isSwiped = true
-                }
-                
-                if newIsActiveValue == false {
-                    withAnimation {
-                        if visibleButton == .none {
-                            reset()
-                        }
-                    }
-                }
-            }
-            .valueChanged(of: isSwiped) { value in
-                if value {
+            .valueChanged(of: dragGestureActive) { dragActive in
+                if !dragActive,
+                   visibleButton == .none {
                     withAnimation {
                         reset()
                     }
-                    isSwiped = false
+                }
+                state = dragActive ? .swiped(id) : .untouched
+            }
+            .valueChanged(of: state) { value in
+                switch value {
+                case .swiped(let tag):
+                    if id != tag,
+                       visibleButton != .none {
+                        withAnimation(.linear(duration: 0.3)) {
+                            reset()
+                        }
+                        state = .untouched
+                    }
+                default:
+                    break
                 }
             }
     }
