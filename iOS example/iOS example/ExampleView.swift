@@ -100,12 +100,12 @@ struct ExampleView: View {
                     ForEach(1 ... 30, id: \.self) { cell in
                         Text("Cell \(cell)")
                             .padding()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .frame(height: 80)
                             .frame(maxWidth: .infinity)
                             .contentShape(Rectangle())
                             .listStyle(.plain)
-                            .addSwipeAction(menu: .slided,
+                            .background(Color(UIColor.systemBackground))
+                            .addSwipeAction(menu: .swiped,
                                             state: $state) {
                                 Leading {
                                     Button {
