@@ -28,7 +28,7 @@ struct ExampleView: View {
                 Text("Full swiped example")
                     .font(.largeTitle)
                 
-                Text("destructive full swipe role")
+                Text("destructive swipe role ⬇️")
                     .font(.title)
                 
                 ScrollView {
@@ -110,7 +110,7 @@ struct ExampleView: View {
                     Alert(title: Text(selectedAction), dismissButton: .cancel())
                 }
                 
-                Text("Non-destructive full swipe role")
+                Text("non-destructive swipe role ⬇️")
                     .font(.title)
                 ScrollView {
                     VStack(spacing: 0) {
