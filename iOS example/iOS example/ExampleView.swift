@@ -50,9 +50,9 @@ struct ExampleView: View {
                                             Image(systemName: "checkmark.circle")
                                                 .foregroundColor(.white)
                                         }
-                                        .contentShape(Rectangle())
                                         .frame(width: 60)
                                         .frame(maxHeight: .infinity)
+                                        .contentShape(Rectangle())
                                         .background(Color.green)
                                         
                                         Button {
@@ -62,9 +62,9 @@ struct ExampleView: View {
                                             Image(systemName: "message")
                                                 .foregroundColor(.white)
                                         }
-                                        .contentShape(Rectangle())
                                         .frame(width: 60)
                                         .frame(maxHeight: .infinity)
+                                        .contentShape(Rectangle())
                                         .background(Color.blue)
                                     }
                                     Trailing {
@@ -75,9 +75,9 @@ struct ExampleView: View {
                                             Image(systemName: "archivebox")
                                                 .foregroundColor(.white)
                                         }
-                                        .contentShape(Rectangle())
                                         .frame(width: 60)
                                         .frame(maxHeight: .infinity)
+                                        .contentShape(Rectangle())
                                         .background(Color.gray)
                                         
                                         Button {
@@ -90,9 +90,9 @@ struct ExampleView: View {
                                             Image(systemName: "trash")
                                                 .foregroundColor(.white)
                                         }
-                                        .contentShape(Rectangle())
                                         .frame(width: 60)
                                         .frame(maxHeight: .infinity)
+                                        .contentShape(Rectangle())
                                         .background(Color.red)
                                     }
                                 } action: {
@@ -130,9 +130,9 @@ struct ExampleView: View {
                                             Image(systemName: "message")
                                                 .foregroundColor(.white)
                                         }
-                                        .contentShape(Rectangle())
                                         .frame(width: 60)
                                         .frame(maxHeight: .infinity)
+                                        .contentShape(Rectangle())
                                         .background(Color.blue)
                                     }
                                     Trailing {
@@ -141,9 +141,9 @@ struct ExampleView: View {
                                             Image(systemName: "archivebox")
                                                 .foregroundColor(.white)
                                         }
-                                        .contentShape(Rectangle())
                                         .frame(width: 60)
                                         .frame(maxHeight: .infinity)
+                                        .contentShape(Rectangle())
                                         .background(Color.green)
                                     }
                                 } action: {
@@ -202,8 +202,8 @@ struct ExampleView: View {
                                             Image(systemName: "checkmark.circle")
                                                 .foregroundColor(.white)
                                         }
-                                        .contentShape(Rectangle())
                                         .frame(width: 80, height: 80)
+                                        .contentShape(Rectangle())
                                         .background(Color.green)
                                         
                                         Button {
@@ -212,8 +212,8 @@ struct ExampleView: View {
                                             Image(systemName: "message")
                                                 .foregroundColor(.white)
                                         }
-                                        .contentShape(Rectangle())
                                         .frame(width: 80, height: 80)
+                                        .contentShape(Rectangle())
                                         .background(Color.blue)
                                     }
                                     Trailing {
@@ -223,8 +223,8 @@ struct ExampleView: View {
                                             Image(systemName: "archivebox")
                                                 .foregroundColor(.white)
                                         }
-                                        .contentShape(Rectangle())
                                         .frame(width: 80, height: 80)
+                                        .contentShape(Rectangle())
                                         .background(Color.gray)
                                         
                                         Button {
@@ -233,8 +233,8 @@ struct ExampleView: View {
                                             Image(systemName: "trash")
                                                 .foregroundColor(.white)
                                         }
-                                        .contentShape(Rectangle())
                                         .frame(width: 80, height: 80)
+                                        .contentShape(Rectangle())
                                         .background(Color.red)
                                     }
                                 }
@@ -277,6 +277,7 @@ struct ExampleView: View {
                                         .contentShape(Rectangle())
                                         .background(Color.blue)
                                     }
+                                    
                                     Trailing {
                                         Button {
                                             print("archive \(cell)")
@@ -304,10 +305,11 @@ struct ExampleView: View {
                 }
             }
             .tabItem {
-                Image(systemName: "chevron.left.square.fill")
+                Image(systemName: "arrow.left.square.fill")
                 Text("Slided")
             }
             
+            // Tab 3
             VStack(spacing: 32) {
                 Text("Swipe actions in List")
                     .font(.largeTitle)
@@ -318,26 +320,40 @@ struct ExampleView: View {
                     List(elements) { e in
                         Text(e.name)
                             .frame(width: UIScreen.main.bounds.size.width - 32, height: 80)
+                            .contentShape(Rectangle())
                             .background(Color(UIColor.systemBackground))
                             .onTapGesture {
                                 print("on cell tap!")
                             }
                             .addSwipeAction(menu: .swiped,
-                                            edge: .trailing,
                                             state: $state) {
-                                Button {
-                                    print("remove")
-                                } label: {
-                                    Image(systemName: "trash")
-                                        .foregroundColor(.white)
+                                
+                                Leading {
+                                    Button {
+                                    } label: {
+                                        Image(systemName: "message")
+                                            .foregroundColor(.white)
+                                    }
+                                    .frame(width: 60, height: 80)
+                                    .contentShape(Rectangle())
+                                    .background(Color.blue)
                                 }
-                                .frame(width: 60, height: 80, alignment: .center)
-                                .contentShape(Rectangle())
-                                .background(Color.red)
+                                Trailing {
+                                    Button {
+                                    } label: {
+                                        Image(systemName: "archivebox")
+                                            .foregroundColor(.white)
+                                    }
+                                    .frame(width: 60, height: 80)
+                                    .contentShape(Rectangle())
+                                    .background(Color.green)
+                                }
                             }
                                             .listRowInsets(EdgeInsets())
+                                            .hideSeparators()
                     }
                     .padding(16)
+                    .listStyle(.plain)
                 }
                 
                 VStack(spacing: 16) {
@@ -362,6 +378,7 @@ struct ExampleView: View {
                                 .background(Color.red)
                             }
                                             .listRowInsets(EdgeInsets())
+                                            .hideSeparators()
                         
                     }
                     .padding(16)
@@ -369,8 +386,70 @@ struct ExampleView: View {
                 }
             }
             .tabItem {
-                Image(systemName: "chevron.left.square.fill")
+                Image(systemName: "list.bullet")
                 Text("List")
+            }
+            
+            // Tab 4
+            ScrollView {
+                VStack(spacing: 32) {
+                    HStack {
+                        Text("Leading")
+                        Spacer()
+                        Text("Button")
+                        Spacer()
+                        Text("Trailing")
+                    }
+                    .frame(height: 80)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green.opacity(0.8))
+                    .addSwipeAction(edge: .trailing) {
+                        Rectangle()
+                            .fill(Color.green.opacity(0.8))
+                            .frame(width: 8.0, height: 80)
+                        
+                        Button {
+                        } label: {
+                            Image(systemName: "message")
+                                .foregroundColor(.white)
+                        }
+                        .frame(width: 60, height: 80)
+                        .contentShape(Rectangle())
+                        .background(Color.blue)
+                    }
+                    
+                    VStack(spacing: 12) {
+                        Text("SomeView")
+                            .frame(height: 80)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.green.opacity(0.8))
+                        Text("Some View")
+                            .frame(height: 80)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.yellow.opacity(0.8))
+                        Text("Some view")
+                            .frame(height: 80)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.black.opacity(0.3))
+                    }
+                    .addSwipeAction(edge: .trailing) {
+                        Button {
+                        } label: {
+                            Image(systemName: "message")
+                                .foregroundColor(.white)
+                        }
+                        .frame(width: 100, height: 264)
+                        .contentShape(Rectangle())
+                        .background(Color.blue)
+                    }
+                }
+                
+                
+            }
+            .padding(.horizontal, 16)
+            .tabItem {
+                Image(systemName: "questionmark.bubble.fill")
+                Text("Custom")
             }
         }
     }
@@ -379,5 +458,28 @@ struct ExampleView: View {
 struct ExampleView_Previews: PreviewProvider {
     static var previews: some View {
         ExampleView()
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func hideSeparators() -> some View {
+        if #available(iOS 15.0, *) {
+            self.listRowSeparator(.hidden)
+        } else {
+            self
+                .onAppear {
+                    
+                    if #available(iOS 14.0, *) {
+                        // iOS 14 doesn't have extra separators below the list by default.
+                    } else {
+                        // To remove only extra separators below the list:
+                        UITableView.appearance().tableFooterView = UIView()
+                    }
+                    
+                    // To remove all separators including the actual ones:
+                    UITableView.appearance().separatorStyle = .none
+                }
+        }
     }
 }
