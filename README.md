@@ -395,7 +395,7 @@ ForEach(1 ... 30, id: \.self) { cell in
 <details>
   <summary>With List.</summary>
 
-Basically if you have minimum deployments target for your app is iOS 15 I recommend to use Apple's [swipe actions](https://developer.apple.com/documentation/swiftui/view/swipeactions(edge:allowsfullswipe:content:)) for List. If not you may use this.
+Basically if you have minimum deployments target for your app is iOS 15 I recommend to use Apple's [swipe actions](https://developer.apple.com/documentation/swiftui/view/swipeactions(edge:allowsfullswipe:content:)) for List. Anyway you may use this.
 
 Due to some features for working with ```List``` you should:
 
