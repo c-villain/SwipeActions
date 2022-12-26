@@ -2,8 +2,9 @@
 
 <p align="center">
      <img src="https://img.shields.io/badge/release-0.2.0-blue" />
-    <img src="https://img.shields.io/badge/platform-IOS-blue" />
+    <img src="https://img.shields.io/badge/platform-IOS/macOS-blue" />
     <img src="https://img.shields.io/badge/iOS-13-blue" />
+    <img src="https://img.shields.io/badge/macOS-10.15-blue" />
     <img src="https://img.shields.io/badge/language-Swift%205.0-blue" />
      <img src="https://img.shields.io/badge/license-MIT-blue" />
 </p>
