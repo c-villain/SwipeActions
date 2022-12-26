@@ -70,6 +70,8 @@ Different types of menu:
 <img src="Sources/Gifs/both.gif" alt="Example with leading and trailing swipes" height="160" width="280">
 </p>
 
+Use ```Leading { ... }``` and ```Trailing { ... }``` closures inside ```.addSwipeAction { ... }``` modifier:
+
 ```swift
 import SwipeActions
 
@@ -129,11 +131,13 @@ struct YourView: View {
 </details>
 
 <details>
-  <summary>Adding swipe actions to one of sides of view:</summary>
+  <summary>Adding swipe actions to one side of view:</summary>
 
 <p align="center">
 <img src="Sources/Gifs/trailing.gif" alt="Example with trailing swipe menu" height="160" width="280">
 </p>
+
+Use ```.addSwipeAction(edge: ) { ... }``` modifier, ```edge``` - a ```HorizontalAlignment``` value input parameter - with two cases of using ```.leading``` or ```.trailing```
 
 ```swift
 import SwipeActions
@@ -179,7 +183,29 @@ struct YourView: View {
 </details>
 
 <details>
-  <summary>Adding full swipe action:</summary>
+  <summary>For automatically closing other opened actions: </summary>
+  
+  Add ```SwipeState``` var to your ```View``` and pass it as a ```binding``` in ```.addSwipeAction(state:)```:
+  
+  ```swift
+  
+struct YourView: View {  
+     @State var state: SwipeState = .untouched // <=== HERE
+
+     var body: some View {
+          ScrollView {
+               VStack(spacing: 2) {
+                   ForEach(1 ... 30, id: \.self) { cell in
+                       Text("Cell \(cell)")
+                           .addSwipeAction(state: $state) { <=== HERE
+                              ....
+                           }
+                    }
+               }
+          }
+     }
+}
+```
   
  </details>
  
@@ -247,6 +273,8 @@ ForEach(1 ... 30, id: \.self) { cell in
 
 <details>
   <summary>With List.</summary>
+
+Basically if you have minimum deployments target for your app is iOS 15 I recommend to use Apple's [swipe actions](https://developer.apple.com/documentation/swiftui/view/swipeactions(edge:allowsfullswipe:content:)) for List. If not you may use this.
 
 Due to some features for working with ```List``` you should:
 
