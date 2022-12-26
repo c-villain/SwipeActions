@@ -17,6 +17,7 @@ struct ExampleView: View {
     @State var state: SwipeState = .untouched
     @State private var showingAlert = false
     @State private var selectedAction: String = ""
+    @State private var fullSwiped = false
     
     @State var range: [Int] = [1,2,3,4,5,6,7,8,9,10]
     var body: some View {
@@ -24,10 +25,10 @@ struct ExampleView: View {
             
             // Tab 1
             VStack {
-                Text("Swipe actions!")
+                Text("Full swiped example")
                     .font(.largeTitle)
                 
-                Text("full swiped example")
+                Text("destructive full swipe role")
                     .font(.title)
                 
                 ScrollView {
@@ -108,6 +109,61 @@ struct ExampleView: View {
                 .alert(isPresented: $showingAlert) {
                     Alert(title: Text(selectedAction), dismissButton: .cancel())
                 }
+                
+                Text("Non-destructive full swipe role")
+                    .font(.title)
+                ScrollView {
+                    VStack(spacing: 0) {
+                        ForEach(0...10, id: \.self) { cell in
+                            Text("Cell \(cell)")
+                                .frame(height: 60)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color(UIColor.systemBackground))
+                                .addFullSwipeAction(menu: .slided,
+                                                    swipeColor: .green,
+                                                    swipeRole: .defaults,
+                                                    state: $state) {
+                                    Leading {
+                                        Button {
+                                        } label: {
+                                            Image(systemName: "message")
+                                                .foregroundColor(.white)
+                                        }
+                                        .contentShape(Rectangle())
+                                        .frame(width: 60)
+                                        .frame(maxHeight: .infinity)
+                                        .background(Color.blue)
+                                    }
+                                    Trailing {
+                                        Button {
+                                        } label: {
+                                            Image(systemName: "archivebox")
+                                                .foregroundColor(.white)
+                                        }
+                                        .contentShape(Rectangle())
+                                        .frame(width: 60)
+                                        .frame(maxHeight: .infinity)
+                                        .background(Color.green)
+                                    }
+                                } action: {
+                                    withAnimation {
+                                        selectedAction = "Full swiped action!"
+                                        fullSwiped = true
+                                    }
+                                }
+                                .listRowInsets(EdgeInsets())
+                        }
+                    }
+                }
+                .alert(isPresented: $fullSwiped) {
+                    Alert(title: Text(selectedAction),
+                          dismissButton: .default(Text("Archived!")) {
+                        withAnimation {
+                            state = .swiped(UUID())
+                        }
+                    })
+                }
             }
             .tabItem {
                 Image(systemName: "arrow.left.square.fill")
@@ -135,8 +191,6 @@ struct ExampleView: View {
                                         Color.green.opacity(0.2)
                                     }
                                 )
-//                                .background(Color.green.opacity(0.2)) // <=== Don't use such way
-//                                .background(Color(red: 0.841, green: 0.956, blue: 0.868))
                                 .contentShape(Rectangle())
                                 .listStyle(.plain)
                                 .addSwipeAction(menu: .swiped,
