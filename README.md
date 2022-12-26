@@ -1,7 +1,7 @@
 # SwipeActions
 
 <p align="center">
-     <img src="https://img.shields.io/badge/release-0.2.0-blue" />
+     <img src="https://img.shields.io/badge/release-0.3.0-blue" />
     <img src="https://img.shields.io/badge/platform-IOS/macOS-blue" />
     <img src="https://img.shields.io/badge/iOS-13-blue" />
     <img src="https://img.shields.io/badge/macOS-10.15-blue" />
@@ -183,7 +183,11 @@ struct YourView: View {
 </details>
 
 <details>
-  <summary>For automatically closing other opened actions: </summary>
+  <summary>For automatically closing other opened actions during sliding: </summary>
+  
+<p align="center">
+<img src="Sources/Gifs/autoclosing.gif" alt="Example with auto closing swipe actions" width="280">
+</p> 
   
   Add ```SwipeState``` var to your ```View``` and pass it as a ```binding``` in ```.addSwipeAction(state:)```:
   
@@ -208,6 +212,123 @@ struct YourView: View {
 ```
   
  </details>
+ 
+### Full swipe action
+  
+  For full swipe use modifier ```.addFullSwipeAction(menu:swipeColor:swipeRole:state:content:action:)```
+  
+  Basically there are two main ```SwipeRole``` for full swipe action: ```.destructive``` (defaults) and other one.
+  
+  <details>
+  <summary>.destructive</summary>
+  
+  This role is used for closing/hiding/removing cell.
+  
+  
+<p align="center">
+<img src="Sources/Gifs/destructiveFullSwipe.gif" alt="Example of full swipe with destructive role" width="280">
+</p> 
+     
+  
+  ```swift
+  
+struct YourView: View {  
+     
+     @State var range: [Int] = [1,2,3,4,5,6,7,8,9,10]
+
+     var body: some View {
+          ScrollView {
+               VStack(spacing: 2) {
+                   ForEach(range, id: \.self) { cell in
+                       Text("Cell \(cell)")
+                           .addFullSwipeAction(menu: .slided,
+                                               swipeColor: .red) { // <=== Color is the same as last button in Trailing for full effect 
+                                    Leading { 
+                                        ...
+                                    }
+                                    Trailing {
+                                        ...
+                                        
+                                        Button {
+                                            withAnimation { 
+                                                if let index = range.firstIndex(of: cell) {
+                                                    range.remove(at: index)
+                                                }
+                                            }
+                                        } label: {
+                                            Image(systemName: "trash")
+                                                .foregroundColor(.white)
+                                        }
+                                        .contentShape(Rectangle())
+                                        .frame(width: 60)
+                                        .frame(maxHeight: .infinity)
+                                        .background(Color.red) // <=== Look here
+                                    }
+                                } action: { // <=== action for full swiping
+                                    withAnimation {
+                                        if let index = range.firstIndex(of: cell) {
+                                            range.remove(at: index)
+                                        }
+                                    }
+                                }
+                    }
+               }
+          }
+     }
+}
+```
+   </details>
+   
+   
+  <details>
+  <summary>.defaults</summary>
+  
+  This role is used for making some action on cell.
+  
+<p align="center">
+<img src="Sources/Gifs/fullSwipe.gif" alt="Example of full swipe with non-destructive role" width="280">
+</p> 
+     
+  
+  ```swift
+  
+struct YourView: View {  ]
+
+     var body: some View {
+          ScrollView {
+               VStack(spacing: 2) {
+                   ForEach(1...10, id: \.self) { cell in
+                       Text("Cell \(cell)")
+                           .addFullSwipeAction(menu: .slided,
+                                               swipeColor: .green, // <=== Color is the same as last button in Trailing for full effect 
+                                               swipeRole: .defaults) {  // <=== Add this parameter
+                                    Leading { 
+                                        ...
+                                    }
+                                    Trailing {
+                                        ...
+                                        
+                                        Button {
+        
+                                        } label: {
+                                            Image(systemName: "trash")
+                                                .foregroundColor(.white)
+                                        }
+                                        .contentShape(Rectangle())
+                                        .frame(width: 60)
+                                        .frame(maxHeight: .infinity)
+                                        .background(Color.green) // <=== Look here
+                                    }
+                                } action: { // <=== action for full swiping
+                                    ...
+                                }
+                    }
+               }
+          }
+     }
+}
+```
+   </details>
  
 ### Recommendations for use
 
