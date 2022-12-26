@@ -201,7 +201,7 @@ struct YourView: View {
                VStack(spacing: 2) {
                    ForEach(1 ... 30, id: \.self) { cell in
                        Text("Cell \(cell)")
-                           .addSwipeAction(state: $state) { <=== HERE
+                           .addSwipeAction(state: $state) { // <=== HERE
                               ....
                            }
                     }
