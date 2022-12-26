@@ -25,7 +25,7 @@ To use ```SwipeActions``` with a project targeting iOS 13, simply copy folder `S
 
 #### Swift Package Manager
 
-To integrate SwipeActions into your project using SwiftPM add the following to your `Package.swift`:
+To integrate ```SwipeActions``` into your project using SwiftPM add the following to your `Package.swift`:
 
 ```swift
 dependencies: [
