@@ -435,6 +435,43 @@ Look for code in the example.
 
 </details>
 
+<details>
+  <summary>With no horizontal padding views.</summary>
+
+To avoid effect when content in swipe actions started showing immediately after view with no horizontal padding
+
+<p align="center">
+<img src="Sources/Gifs/demoWithoutInsets.gif" alt="Demo without insets" width="280">
+</p>
+
+use ```Rectangle``` filled with *same* color as root view in ```.addSwipeAction```:
+
+<p align="center">
+<img src="Sources/Gifs/demoWithInsets.gif" alt="Demo with insets" width="280">
+</p>
+
+```swift
+ YourView()
+     .frame(height: 80)
+     .frame(maxWidth: .infinity)
+     .background(Color.green.opacity(0.8)) // <=== Look here!
+     .addSwipeAction(edge: .trailing) {
+         Rectangle() // <=== HERE!
+             .fill(Color.green.opacity(0.8)) // <=== Don't forget!
+             .frame(width: 8.0, height: 80)
+
+         Button {
+         } label: {
+             Image(systemName: "message")
+                 .foregroundColor(.white)
+         }
+         .frame(width: 60, height: 80)
+         .contentShape(Rectangle())
+         .background(Color.blue)
+     }
+```
+
+</details>
 
 ## Communication
 
