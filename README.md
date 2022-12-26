@@ -61,6 +61,12 @@ Different types of menu:
 <img src="Sources/Gifs/menuTypes.gif" alt="Example for .swiped and .slided menu" height="100" width="280">
 </p>
 
+Both types can be upgraded with full swiping:
+
+<p align="center">
+<img src="Sources/Gifs/fullSwipe.gif" alt="Example of full swipe with non-destructive role" width="280">
+</p> 
+
 ## Quick start
 
 <details>
@@ -286,7 +292,7 @@ struct YourView: View {
   This role is used for making some action on cell.
   
 <p align="center">
-<img src="Sources/Gifs/fullSwipe.gif" alt="Example of full swipe with non-destructive role" width="280">
+<img src="Sources/Gifs/nondestructiveFullSwipe.gif" alt="Example of full swipe with non-destructive role" width="280">
 </p> 
      
   
