@@ -323,7 +323,6 @@ struct ExampleView: View {
                             .contentShape(Rectangle())
                             .background(Color(UIColor.systemBackground))
                             .onTapGesture {
-                                print("on cell tap!")
                             }
                             .addSwipeAction(menu: .swiped,
                                             state: $state) {
@@ -365,6 +364,8 @@ struct ExampleView: View {
                             .padding(.horizontal, 16)
                             .frame(width: UIScreen.main.bounds.size.width - 32, height: 80)
                             .background(Color(UIColor.systemBackground))
+                            .onTapGesture {
+                            }
                             .addSwipeAction(edge: .trailing,
                                             state: $state) {
                                 Button {
