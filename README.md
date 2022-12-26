@@ -31,7 +31,26 @@ dependencies: [
     .package(url: "https://github.com/c-villain/SwipeActions", from: "0.1.0"),
 ],
 ```
-## Quick start
+or via [XcodeGen](https://github.com/yonaskolb/XcodeGen) insert into your `project.yml`:
+
+```yaml
+name: YourProjectName
+options:
+  deploymentTarget:
+    iOS: 12.0
+packages:
+  SwipeActions:
+    url: https://github.com/c-villain/SwipeActions
+    from: 0.1.0
+targets:
+  YourTarget:
+    type: application
+    ...
+    dependencies:
+       - package: SwipeActions
+```
+
+## Types
 
 Different types of menu: 
 - .swiped
@@ -41,7 +60,10 @@ Different types of menu:
 <img src="Sources/Gifs/menuTypes.gif" alt="Example for .swiped and .slided menu" height="100" width="280">
 </p>
 
-- Adding both leading and trailing swipe actions:
+## Quick start
+
+<details>
+  <summary>Adding both leading and trailing swipe actions:</summary>
 
 <p align="center">
 <img src="Sources/Gifs/both.gif" alt="Example with leading and trailing swipes" height="160" width="280">
@@ -61,7 +83,7 @@ struct YourView: View {
                         .frame(maxWidth: .infinity)
                         .contentShape(Rectangle())
                         .addSwipeAction {
-                            Leading {
+                            Leading { //<= HERE 
                                 
                                 Button {
                                     print("edit \(cell)")
@@ -74,7 +96,7 @@ struct YourView: View {
                                 .background(Color.green)
 
                             }
-                            Trailing {
+                            Trailing { //<= HERE 
 
                                 Button {
                                     print("remove \(cell)")
@@ -103,7 +125,10 @@ struct YourView: View {
 }
 ```
 
-- Adding one of sides swipe actions:
+</details>
+
+<details>
+  <summary>Adding swipe actions to one of sides of view:</summary>
 
 <p align="center">
 <img src="Sources/Gifs/trailing.gif" alt="Example with trailing swipe menu" height="160" width="280">
@@ -122,7 +147,7 @@ struct YourView: View {
                         .frame(height: 50, alignment: .center)
                         .frame(maxWidth: .infinity)
                         .contentShape(Rectangle())
-                        .addSwipeAction (edge: .trailing) {
+                        .addSwipeAction(edge: .trailing) { // <== HERE! choose .trailing or .leading
                             Button {
                                 print("remove \(cell)")
                             } label: {
@@ -149,9 +174,21 @@ struct YourView: View {
     }
 }
 ```
-### Recommendations
 
-For content with dynamic height use ```.frame(maxHeight: .infinity)```:
+</details>
+
+<details>
+  <summary>Adding full swipe action:</summary>
+  
+ </details>
+ 
+### Recommendations for use
+
+<details>
+  <summary>With dynamic height content.</summary>
+ 
+ 
+use ```.frame(maxHeight: .infinity)```
 
 ```swift
 YourView()
@@ -168,6 +205,87 @@ YourView()
         }
     }
 ```
+
+</details>
+
+<details>
+  <summary>With transparent colored views.</summary>
+ 
+ There is *no* restrictions or any recommendations for using with ```.slided``` type! 
+ 
+ With ```.swiped``` use *non-tranparent* color layer or the same color with ```alfa = 1.0```:
+
+```swift
+ForEach(1 ... 30, id: \.self) { cell in
+   Text("Cell \(cell)")
+       .padding()
+       .frame(height: 80)
+       .frame(maxWidth: .infinity)
+       //.background(Color.green.opacity(0.2)) // <=== DON'T USE SUCH WAY!
+       //.background(Color(red: 0.841, green: 0.956, blue: 0.868)) // <== USE THIS WAY!
+       .background( // <== OR THIS WAY!
+           ZStack {
+               Color(UIColor.systemBackground) // non-transparent color layer
+               Color.green.opacity(0.2)
+           }
+       )
+
+
+       .contentShape(Rectangle())
+       .listStyle(.plain)
+       .addSwipeAction(menu: .swiped, // <=== SWIPED TYPE
+                       state: $state) {
+           Leading {
+           ...
+           }
+       }
+       ...
+ }
+```
+</details>
+
+<details>
+  <summary>With List.</summary>
+
+Due to some features for working with ```List``` you should:
+
+ - specify a frame for cell width, e.g. ```.frame(width: UIScreen.main.bounds.size.width - 32, height: 80)``` and a frame for buttons on swipe actions, e.g. ```.frame(width: 60, height: 80)```. Note that height in frames should be the same!
+ 
+ - add modifier ```.onTapGesture { ... }``` for cell to override tapping on swipe action buttons
+ 
+ - add modifier ```.listRowInsets(EdgeInsets())``` for cell
+ 
+```swift
+List(elements) { e in
+    Text(e.name)
+        .frame(width: UIScreen.main.bounds.size.width - 32, height: 80) // <=== HERE
+        .background(Color(UIColor.systemBackground))
+        .onTapGesture { // <=== HERE
+            print("on cell tap!")
+        }
+        .addSwipeAction(menu: .swiped,
+                        edge: .trailing,
+                        state: $state) {
+            Button {
+                print("remove")
+            } label: {
+                Image(systemName: "trash")
+                    .foregroundColor(.white)
+            }
+            .frame(width: 60, height: 80, alignment: .center) // <=== HERE
+            .contentShape(Rectangle())
+            .background(Color.red)
+        }
+                        .listRowInsets(EdgeInsets()) // <=== HERE
+}
+.padding(16)
+```
+
+Look for code in the example.
+
+</details>
+
+
 ## Communication
 
 - If you **found a bug**, open an issue or submit a fix via a pull request.
