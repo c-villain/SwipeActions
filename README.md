@@ -444,7 +444,7 @@ To avoid effect when content in swipe actions started showing immediately after 
 <img src="Sources/Gifs/demoWithoutInsets.gif" alt="Demo without insets" width="280">
 </p>
 
-use ```Rectangle``` filled with *same* color as root view in ```.addSwipeAction```:
+in ```.addSwipeAction { ... }``` add ```Rectangle``` filled with *same* color as root view:
 
 <p align="center">
 <img src="Sources/Gifs/demoWithInsets.gif" alt="Demo with insets" width="280">
