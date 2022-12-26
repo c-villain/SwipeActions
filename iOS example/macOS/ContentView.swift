@@ -3,7 +3,7 @@ import SwipeActions
 
 struct ContentView: View {
     
-    @State var isSwiped: Bool = false
+    @State var state: SwipeState = .untouched
 
     @State var range: [Int] = [1,2,3,4,5,6,7,8,9,10]
     var body: some View {
@@ -20,7 +20,7 @@ struct ContentView: View {
                             .background(Color(NSColor.controlBackgroundColor))
                             .addFullSwipeAction(menu: .slided,
                                                 swipeColor: Color.red,
-                                                isSwiped: $isSwiped) {
+                                                state: $state) {
                                 Leading {
                                     Button {
                                         print("check \(cell)")
@@ -94,7 +94,7 @@ struct ContentView: View {
                             .contentShape(Rectangle())
                             .listStyle(.plain)
                             .addSwipeAction(menu: .slided,
-                                            isSwiped: $isSwiped) {
+                                            state: $state) {
                                 Leading {
                                     Button {
                                         print("check \(cell)")
