@@ -1,10 +1,3 @@
-//
-//  MeasureSizeModifier.swift
-//  
-//
-//  Created by Alexander Kraev on 24.12.2021.
-//
-
 import SwiftUI
 
 struct SizePreferenceKey: PreferenceKey {
@@ -15,17 +8,32 @@ struct SizePreferenceKey: PreferenceKey {
 }
 
 struct MeasureSizeModifier: ViewModifier {
-  func body(content: Content) -> some View {
-    content.background(GeometryReader { geometry in
-      Color.clear.preference(key: SizePreferenceKey.self,
-                             value: geometry.size)
-    })
-  }
+    func body(content: Content) -> some View {
+        content.background(GeometryReader { geometry in
+            Color.clear.preference(key: SizePreferenceKey.self,
+                                   value: geometry.size)
+        })
+    }
 }
 
 extension View {
-  func measureSize(perform action: @escaping (CGSize) -> Void) -> some View {
-    self.modifier(MeasureSizeModifier())
-      .onPreferenceChange(SizePreferenceKey.self, perform: action)
-  }
+    func measureSize(perform action: @escaping (CGSize) -> Void) -> some View {
+        self.modifier(MeasureSizeModifier.init())
+            .onPreferenceChange(SizePreferenceKey.self, perform: action)
+    }
+}
+
+extension View {
+    /// Applies the given transform if the given condition evaluates to `true`.
+    /// - Parameters:
+    ///   - condition: The condition to evaluate.
+    ///   - transform: The transform to apply to the source `View`.
+    /// - Returns: Either the original `View` or the modified `View` if the condition is `true`.
+    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
 }

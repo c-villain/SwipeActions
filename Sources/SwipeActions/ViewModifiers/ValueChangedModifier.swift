@@ -1,10 +1,3 @@
-//
-//  ValueChangedModifier.swift
-//  
-//
-//  Created by c-villain on 28.12.2021.
-//
-
 import SwiftUI
 import Combine
 
