@@ -20,8 +20,6 @@ You can use ```SwipeActions``` in project targeting iOS 13 with any view (e.g. `
 
 ## Installation
 
-To use ```SwipeActions``` with a project targeting iOS 13, simply copy folder `Source` into your project.
-
 #### Swift Package Manager
 
 To integrate ```SwipeActions``` into your project using SwiftPM add the following to your `Package.swift`:
