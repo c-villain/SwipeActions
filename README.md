@@ -16,8 +16,7 @@ You can use ```SwipeActions``` in project targeting iOS 13 with any view (e.g. `
 
 ## Requirements
 
-- iOS 13.0
-- Swift 5.0
+- iOS 13.0 or macOS 10.15
 
 ## Installation
 
