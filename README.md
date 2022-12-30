@@ -4,7 +4,7 @@
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fc-villain%2FSwipeActions%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/c-villain/SwipeActions)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fc-villain%2FSwipeActions%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/c-villain/SwipeActions)
 [![](https://img.shields.io/badge/SPM-supported-DE5C43.svg?color=brightgreen)](https://swift.org/package-manager/)
-![](https://img.shields.io/github/license/c-villain/SwipeActions)
+![](https://img.shields.io/github/license/c-villain/SBP)
 [![contact: @lexkraev](https://img.shields.io/badge/contact-%40lexkraev-blue.svg?style=flat)](https://t.me/lexkraev)
 
 Library for creating swipe actions for any SwiftUI View, similar to Apple's [```swipeActions(edge:allowsFullSwipe:content:)```](https://developer.apple.com/documentation/swiftui/view/swipeactions(edge:allowsfullswipe:content:)) that available from iOS 15 and only in [List](https://developer.apple.com/documentation/swiftui/lists) 🤷🏼‍♂️.
