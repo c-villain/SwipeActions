@@ -476,6 +476,42 @@ in ```.addSwipeAction { ... }``` add ```Rectangle``` filled with *same* color as
 
 </details>
 
+<details>
+  <summary>With context menu.</summary>
+
+<p align="center">
+<img src="Sources/Gifs/withContextMenuDemo.gif" alt="Demo without insets" width="280">
+</p>
+
+Due to some difficulties for SwiftUI to detect gestures for sliding view and opening context menu I recommend you to use
+`.contextMenu` after `.addSwipeAction` (or `addFullSwipeAction`):
+
+```swift
+ YourView()
+     .frame(height: 80)
+     .frame(maxWidth: .infinity)
+    .contentShape(Rectangle()) 
+    .padding()
+    .background(Color(UIColor.systemBackground))
+    .addFullSwipeAction(...) { ... }  // <=== Look here!
+    .contextMenu { ... }
+```
+
+Actually if you don't use `.contentShape(Rectangle())`, you can also add `.contextMenu` before `.addSwipeAction` (or `addFullSwipeAction`):
+
+```swift
+ YourView()
+     .frame(height: 80)
+     .frame(maxWidth: .infinity)
+    //.contentShape(Rectangle()) // <=== Look here!
+    .padding()
+    .contextMenu { ... } // <=== Look here!
+    .background(Color(UIColor.systemBackground))
+    .addFullSwipeAction(...) { ... } // <=== Look here!
+```
+
+</details>
+
 ## Communication
 
 - If you **found a bug**, open an issue or submit a fix via a pull request.
