@@ -20,7 +20,28 @@ struct ExampleView: View {
     @State private var fullSwiped = false
     
     @State var range: [Int] = [1,2,3,4,5,6,7,8,9,10]
+    
+    var menu: some View {
+        Group {
+            Button {
+                print("Action 1")
+            } label: {
+                Text("Action 1")
+            }
+            
+            Button {
+                print("Action 2")
+            } label: {
+                Text("Action 2")
+            }
+        }
+        .foregroundColor(.orange)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+    
+    
     var body: some View {
+        
         TabView {
             
             // Tab 1
@@ -37,6 +58,7 @@ struct ExampleView: View {
                             Text("Cell \(cell)")
                                 .frame(height: 60)
                                 .frame(maxWidth: .infinity)
+                                .contentShape(Rectangle())
                                 .padding()
                                 .background(Color(UIColor.systemBackground))
                                 .addFullSwipeAction(menu: .slided,
@@ -392,60 +414,142 @@ struct ExampleView: View {
             }
             
             // Tab 4
-            ScrollView {
-                VStack(spacing: 32) {
-                    HStack {
-                        Text("Leading")
-                        Spacer()
-                        Text("Button")
-                        Spacer()
-                        Text("Trailing")
-                    }
-                    .frame(height: 80)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.green.opacity(0.8))
-                    .addSwipeAction(edge: .trailing) {
-                        Rectangle()
-                            .fill(Color.green.opacity(0.8))
-                            .frame(width: 8.0, height: 80)
+            VStack {
+                ScrollView {
+                    VStack(spacing: 32) {
+                        HStack {
+                            Text("Leading")
+                            Spacer()
+                            Text("Button")
+                            Spacer()
+                            Text("Trailing")
+                        }
+                        .frame(height: 80)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.green.opacity(0.8))
+                        .addSwipeAction(edge: .trailing) {
+                            Rectangle()
+                                .fill(Color.green.opacity(0.8))
+                                .frame(width: 8.0, height: 80)
+                            
+                            Button {
+                            } label: {
+                                Image(systemName: "message")
+                                    .foregroundColor(.white)
+                            }
+                            .frame(width: 60, height: 80)
+                            .contentShape(Rectangle())
+                            .background(Color.blue)
+                        }
                         
-                        Button {
-                        } label: {
-                            Image(systemName: "message")
-                                .foregroundColor(.white)
+                        VStack(spacing: 12) {
+                            Text("SomeView")
+                                .frame(height: 80)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.green.opacity(0.8))
+                            Text("Some View")
+                                .frame(height: 80)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.yellow.opacity(0.8))
+                            Text("Some view")
+                                .frame(height: 80)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.black.opacity(0.3))
                         }
-                        .frame(width: 60, height: 80)
-                        .contentShape(Rectangle())
-                        .background(Color.blue)
-                    }
-                    
-                    VStack(spacing: 12) {
-                        Text("SomeView")
-                            .frame(height: 80)
-                            .frame(maxWidth: .infinity)
-                            .background(Color.green.opacity(0.8))
-                        Text("Some View")
-                            .frame(height: 80)
-                            .frame(maxWidth: .infinity)
-                            .background(Color.yellow.opacity(0.8))
-                        Text("Some view")
-                            .frame(height: 80)
-                            .frame(maxWidth: .infinity)
-                            .background(Color.black.opacity(0.3))
-                    }
-                    .addSwipeAction(edge: .trailing) {
-                        Button {
-                        } label: {
-                            Image(systemName: "message")
-                                .foregroundColor(.white)
+                        .addSwipeAction(edge: .trailing) {
+                            Button {
+                            } label: {
+                                Image(systemName: "message")
+                                    .foregroundColor(.white)
+                            }
+                            .frame(width: 100, height: 264)
+                            .contentShape(Rectangle())
+                            .background(Color.blue)
                         }
-                        .frame(width: 100, height: 264)
-                        .contentShape(Rectangle())
-                        .background(Color.blue)
                     }
                 }
+                Text("cells with Context menu ⬇️")
+                    .font(.title)
                 
-                
+                ScrollView {
+                    VStack(spacing: 0) {
+                        ForEach(range, id: \.self) { cell in
+                            Text("Cell \(cell)")
+                                .frame(height: 60)
+                                .frame(maxWidth: .infinity)
+                                .contentShape(Rectangle())
+                                .padding()
+                                .background(Color(UIColor.systemBackground))
+                                .addFullSwipeAction(menu: .slided,
+                                                    swipeColor: .red,
+                                                    state: $state) {
+                                    Leading {
+                                        Button {
+                                            selectedAction = "cell \(cell) checked!"
+                                            showingAlert = true
+                                        } label: {
+                                            Image(systemName: "checkmark.circle")
+                                                .foregroundColor(.white)
+                                        }
+                                        .frame(width: 60)
+                                        .frame(maxHeight: .infinity)
+                                        .contentShape(Rectangle())
+                                        .background(Color.green)
+                                        
+                                        Button {
+                                            selectedAction = "message cell \(cell)"
+                                            showingAlert = true
+                                        } label: {
+                                            Image(systemName: "message")
+                                                .foregroundColor(.white)
+                                        }
+                                        .frame(width: 60)
+                                        .frame(maxHeight: .infinity)
+                                        .contentShape(Rectangle())
+                                        .background(Color.blue)
+                                    }
+                                    Trailing {
+                                        Button {
+                                            selectedAction = "cell \(cell) archived!"
+                                            showingAlert = true
+                                        } label: {
+                                            Image(systemName: "archivebox")
+                                                .foregroundColor(.white)
+                                        }
+                                        .frame(width: 60)
+                                        .frame(maxHeight: .infinity)
+                                        .contentShape(Rectangle())
+                                        .background(Color.gray)
+                                        
+                                        Button {
+                                            withAnimation {
+                                                if let index = range.firstIndex(of: cell) {
+                                                    range.remove(at: index)
+                                                }
+                                            }
+                                        } label: {
+                                            Image(systemName: "trash")
+                                                .foregroundColor(.white)
+                                        }
+                                        .frame(width: 60)
+                                        .frame(maxHeight: .infinity)
+                                        .contentShape(Rectangle())
+                                        .background(Color.red)
+                                    }
+                                } action: {
+                                    withAnimation {
+                                        if let index = range.firstIndex(of: cell) {
+                                            range.remove(at: index)
+                                        }
+                                    }
+                                }
+                                .contextMenu {
+                                    menu
+                                }
+                                .listRowInsets(EdgeInsets())
+                        }
+                    }
+                }
             }
             .padding(.horizontal, 16)
             .tabItem {
