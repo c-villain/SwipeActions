@@ -272,15 +272,21 @@ struct SwipeAction<V1: View, V2: View>: ViewModifier {
         case .slided:
             ZStack {
                 swipeColor
+                    .zIndex(1)
                 slidedMenu
+                    .zIndex(2)
                 gesturedContent(content: content)
+                    .zIndex(3)
             }
             .frame(height: isDeletedRow ? 0 : nil, alignment: .top)
         case .swiped:
             ZStack {
                 swipeColor
+                    .zIndex(1)
                 swipedMenu
+                    .zIndex(2)
                 gesturedContent(content: content)
+                    .zIndex(3)
             }
            .frame(height: isDeletedRow ? 0 : nil, alignment: .top)
         }
