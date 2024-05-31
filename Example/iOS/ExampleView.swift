@@ -115,6 +115,10 @@ struct ExampleView: View {
                                         fullSwiped = true
                                     }
                                 }
+                                .swipeHint( // <== HINT
+                                    cell == range.first,
+                                    hintOffset: 60
+                                )
                                 .listRowInsets(EdgeInsets())
                         }
                     }
