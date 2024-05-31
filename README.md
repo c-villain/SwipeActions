@@ -516,6 +516,35 @@ Actually if you don't use `.contentShape(Rectangle())`, you can also add `.conte
 
 </details>
 
+<details>
+  <summary>How to add swpe hint.</summary>
+
+Use modifier `.swipeHint`:
+
+```swift
+ForEach(range, ...) {
+    YourCell()
+        ...
+        .addFullSwipeAction(
+            menu: .slided,
+            swipeColor: .red,
+            state: $state) {
+                Leading {
+                    ...
+                }
+                Trailing {
+                    ...
+                }
+            }
+        .swipeHint(cell == range.first, hintOffset: 120.0) // for trailing <== LOOK HERE
+        .swipeHint(cell == range[1] , hintOffset: -120.0) // for leading <== LOOK HERE
+    ...
+}
+```
+
+</details>
+
+
 ## Communication
 
 - If you **found a bug**, open an issue or submit a fix via a pull request.
