@@ -19,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A791F8B2A311D4200B55D61 /* SwipeActions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwipeActions; path = ..; sourceTree = "<group>"; };
 		5A984633284780DC008CB7E9 /* ExampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
 		5AE813DF29566AF1000B56B1 /* macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AE813E129566AF1000B56B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -30,7 +31,6 @@
 		5AEC02B828477B9700709BAA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5AEC02BA28477B9700709BAA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5AEC02C628477B9900709BAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5AEC02CF28477EA000709BAA /* SwipeActions */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwipeActions; path = ../..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +53,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A791F8A2A311D4200B55D61 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				5A791F8B2A311D4200B55D61 /* SwipeActions */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 		5A9846372847815E008CB7E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -84,7 +92,7 @@
 		5AEC02AC28477B9700709BAA = {
 			isa = PBXGroup;
 			children = (
-				5AEC02CE28477E7800709BAA /* Packages */,
+				5A791F8A2A311D4200B55D61 /* Packages */,
 				5AEC02B728477B9700709BAA /* iOS */,
 				5AE813E029566AF1000B56B1 /* macOS */,
 				5AEC02B628477B9700709BAA /* Products */,
@@ -109,14 +117,6 @@
 				5AEC02C628477B9900709BAA /* Info.plist */,
 			);
 			path = iOS;
-			sourceTree = "<group>";
-		};
-		5AEC02CE28477E7800709BAA /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				5AEC02CF28477EA000709BAA /* SwipeActions */,
-			);
-			path = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
